@@ -20,6 +20,10 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
+    private val adapter: HomeRepositoryAdapter by lazy {
+        HomeRepositoryAdapter()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -30,13 +34,15 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
         configureAdapter()
+        observeRepoList()
         return binding.root
     }
 
     private fun configureAdapter() {
-        val adapter = HomeRepositoryAdapter()
         binding.repositoryList.adapter = adapter
+    }
 
+    private fun observeRepoList() {
         viewModel.repos.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
                 adapter.submitData(it)

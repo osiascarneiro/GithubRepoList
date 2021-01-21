@@ -12,11 +12,11 @@ class FetchGithubRepoListRepository(
 ): FetchGithubRepoListRepositoryInterface {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getRepositories(): LiveData<PagingData<RepositoryEntity>> = Pager(
+    override fun getRepositories(): Pager<Int, RepositoryEntity> = Pager(
         config = PagingConfig(FetchGithubRepoListRepositoryInterface.PAGE_SIZE),
         remoteMediator = FetchGithubRepoListRemoteMediator(db, api)
     ) {
         db.repositories().getRepositories()
-    }.liveData
+    }
 
 }

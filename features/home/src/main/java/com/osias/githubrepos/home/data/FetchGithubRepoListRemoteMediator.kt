@@ -12,6 +12,7 @@ import com.osias.githubrepos.home.data.api.FetchGithubRepoList
 import com.osias.githubrepos.home.data.db.GithubDb
 import com.osias.githubrepos.home.model.OwnerEntity
 import com.osias.githubrepos.home.model.RepositoriesList
+import com.osias.githubrepos.home.model.Repository
 import com.osias.githubrepos.home.model.RepositoryEntity
 
 @ExperimentalPagingApi
@@ -45,21 +46,23 @@ class FetchGithubRepoListRemoteMediator(
     }
 
     private suspend fun processApiResult(result: RepositoriesList, page: Int) {
-        val listRepos = ArrayList<RepositoryEntity>()
-        val listOwners = ArrayList<OwnerEntity>()
-        result.repos.forEach {
-            val repoEntity = it.toEntity()
-            repoEntity.page = page
-            listRepos.add(repoEntity)
-            listOwners.add(it.owner.toEntity())
-        }
-
+        val repositoryEntityList = buildRepositoryEntityList(result.repos, page)
+        val ownerEntityList = buildOwnersEntityList(result.repos)
         db.withTransaction {
             db.repositories().deleteByPage(page)
-            val toRemove = listOwners.distinctBy { it.login }
-            db.owners().deleteList(toRemove)
-            db.repositories().insertAll(listRepos)
-            db.owners().insertAll(listOwners)
+            db.owners().deleteList(ownerEntityList)
+            db.repositories().insertAll(repositoryEntityList)
+            db.owners().insertAll(ownerEntityList)
         }
+    }
+
+    private suspend fun buildRepositoryEntityList(listRepos: List<Repository>, pageParam: Int): List<RepositoryEntity> {
+        return listRepos.map {
+            it.toEntity().apply { page = pageParam }
+        }
+    }
+
+    private suspend fun buildOwnersEntityList(listRepos: List<Repository>): List<OwnerEntity> {
+        return listRepos.map { it.owner.toEntity() }.distinctBy { it.login }
     }
 }
