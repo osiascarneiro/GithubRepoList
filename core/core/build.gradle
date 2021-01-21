@@ -1,0 +1,28 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 30
+    defaultConfig {
+        minSdkVersion 21
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation Dependencies.kotlinStandardLibrary
+    implementation Dependencies.retrofit
+    implementation Dependencies.gsonConverter
+    implementation Dependencies.appCompat
+    implementation Dependencies.androidxCore
+    implementation Dependencies.lifecycle
+}

@@ -1,0 +1,6 @@
+include ':features:home'
+include ':core:testcore'
+include ':core:core'
+include ':actions'
+include ':app'
+rootProject.name = "GithubRepos"
