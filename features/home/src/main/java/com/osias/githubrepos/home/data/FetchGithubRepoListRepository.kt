@@ -1,7 +1,8 @@
 package com.osias.githubrepos.home.data
 
-import androidx.lifecycle.LiveData
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.osias.githubrepos.home.data.api.FetchGithubRepoList
 import com.osias.githubrepos.home.data.db.GithubDb
 import com.osias.githubrepos.home.model.RepositoryEntity

@@ -1,6 +1,5 @@
 package com.osias.githubrepos.home.data
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState

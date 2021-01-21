@@ -1,8 +1,8 @@
 package com.osias.githubrepos.home.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import com.osias.githubrepos.home.di.module
 import com.osias.home.databinding.ActivityHomeBinding
 import org.koin.core.context.loadKoinModules

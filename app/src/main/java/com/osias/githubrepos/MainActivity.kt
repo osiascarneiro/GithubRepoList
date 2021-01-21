@@ -1,7 +1,7 @@
 package com.osias.githubrepos
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.osias.actions.Actions.openHomeIntent
 
 class MainActivity : AppCompatActivity() {
