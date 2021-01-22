@@ -4,29 +4,40 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ImageView
+        android:id="@+id/avatarPhoto"
+        android:layout_width="@dimen/avatar_width"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_marginStart="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
-        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginStart="@dimen/half_default_margin"
         android:layout_marginEnd="@dimen/half_default_margin"
         app:layout_constraintEnd_toStartOf="@id/forksCount"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toEndOf="@id/avatarPhoto"/>
 
     <TextView
         android:id="@+id/description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/half_default_margin"
-        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginStart="@dimen/half_default_margin"
         android:layout_marginEnd="@dimen/half_default_margin"
         android:layout_marginBottom="@dimen/default_margin"
         app:layout_constraintEnd_toStartOf="@id/forksCount"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toEndOf="@id/avatarPhoto"/>
 
     <ImageView
         android:id="@+id/starImg"

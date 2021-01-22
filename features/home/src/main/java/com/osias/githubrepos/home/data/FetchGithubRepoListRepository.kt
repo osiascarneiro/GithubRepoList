@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.osias.githubrepos.home.data.api.FetchGithubRepoList
 import com.osias.githubrepos.home.data.db.GithubDb
-import com.osias.githubrepos.home.model.RepositoryEntity
+import com.osias.githubrepos.home.model.RepositoryAndOwner
 
 class FetchGithubRepoListRepository(
     private val db: GithubDb,
@@ -13,11 +13,11 @@ class FetchGithubRepoListRepository(
 ): FetchGithubRepoListRepositoryInterface {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getRepositories(): Pager<Int, RepositoryEntity> = Pager(
+    override fun getRepositories(): Pager<Int, RepositoryAndOwner> = Pager(
         config = PagingConfig(FetchGithubRepoListRepositoryInterface.PAGE_SIZE),
         remoteMediator = FetchGithubRepoListRemoteMediator(db, api)
     ) {
-        db.repositories().getRepositories()
+        db.repositories().getRepositoriesAndOwners()
     }
 
 }

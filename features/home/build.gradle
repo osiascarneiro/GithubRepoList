@@ -44,6 +44,7 @@ dependencies {
     implementation Dependencies.room
     kapt Dependencies.roomKapt
     implementation Dependencies.roomKtx
+    implementation Dependencies.glide
 
     implementation Dependencies.retrofit
     implementation Dependencies.gsonConverter

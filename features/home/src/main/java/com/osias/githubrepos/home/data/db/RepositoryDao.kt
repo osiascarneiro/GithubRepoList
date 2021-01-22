@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.osias.githubrepos.home.model.RepositoryAndOwner
 import com.osias.githubrepos.home.model.RepositoryEntity
 
 @Dao
@@ -15,6 +16,9 @@ interface RepositoryDao {
 
     @Query("SELECT * FROM repository")
     fun getRepositories(): PagingSource<Int, RepositoryEntity>
+
+    @Query("SELECT * FROM repository")
+    fun getRepositoriesAndOwners(): PagingSource<Int, RepositoryAndOwner>
 
     @Query("SELECT * FROM repository WHERE page = :page")
     fun getRepositoriesByPage(page: Int): PagingSource<Int, RepositoryEntity>

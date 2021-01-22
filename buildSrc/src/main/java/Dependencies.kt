@@ -11,6 +11,7 @@ object Versions {
     const val koin = "2.2.0"
     const val paging = "3.0.0-alpha12"
     const val room = "2.3.0-alpha04"
+    const val glide = "4.11.0"
     //Test
     const val junit = "4+"
     const val androidxTesting = "1.1.2"
@@ -40,6 +41,7 @@ object Dependencies {
     const val room = "androidx.room:room-runtime:${Versions.room}"
     const val roomKapt = "androidx.room:room-compiler:${Versions.room}"
     const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
 }
 
 object TestDependencies {

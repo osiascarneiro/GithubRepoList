@@ -9,24 +9,21 @@ import com.osias.githubrepos.core.data.safeAPICall
 import com.osias.githubrepos.core.model.RequestState
 import com.osias.githubrepos.home.data.api.FetchGithubRepoList
 import com.osias.githubrepos.home.data.db.GithubDb
-import com.osias.githubrepos.home.model.OwnerEntity
-import com.osias.githubrepos.home.model.RepositoriesList
-import com.osias.githubrepos.home.model.Repository
-import com.osias.githubrepos.home.model.RepositoryEntity
+import com.osias.githubrepos.home.model.*
 
 @ExperimentalPagingApi
 class FetchGithubRepoListRemoteMediator(
     private val db: GithubDb,
     private val api: FetchGithubRepoList
-): RemoteMediator<Int, RepositoryEntity>() {
+): RemoteMediator<Int, RepositoryAndOwner>() {
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, RepositoryEntity>
+        state: PagingState<Int, RepositoryAndOwner>
     ): MediatorResult {
         val page = when(loadType) {
             LoadType.REFRESH -> null
-            LoadType.APPEND -> state.lastItemOrNull()?.page?.plus(1) ?: 1
+            LoadType.APPEND -> state.lastItemOrNull()?.repository?.page?.plus(1) ?: 1
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
         }
 

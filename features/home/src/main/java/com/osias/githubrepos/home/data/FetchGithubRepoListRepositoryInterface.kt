@@ -1,6 +1,7 @@
 package com.osias.githubrepos.home.data
 
 import androidx.paging.Pager
+import com.osias.githubrepos.home.model.RepositoryAndOwner
 import com.osias.githubrepos.home.model.RepositoryEntity
 
 interface FetchGithubRepoListRepositoryInterface {
@@ -9,6 +10,6 @@ interface FetchGithubRepoListRepositoryInterface {
         const val PAGE_SIZE = 10
     }
 
-    fun getRepositories(): Pager<Int, RepositoryEntity>
+    fun getRepositories(): Pager<Int, RepositoryAndOwner>
 
 }
