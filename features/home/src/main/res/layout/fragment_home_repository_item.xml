@@ -9,16 +9,28 @@
         android:layout_width="@dimen/avatar_width"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/default_margin"
-        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/half_default_margin"
         android:layout_marginStart="@dimen/default_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/ownerLogin"/>
+
+    <TextView
+        android:id="@+id/ownerLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="@id/avatarPhoto"
+        app:layout_constraintEnd_toEndOf="@id/avatarPhoto"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text_size"
+        android:textStyle="bold"
         android:layout_marginTop="@dimen/default_margin"
         android:layout_marginStart="@dimen/half_default_margin"
         android:layout_marginEnd="@dimen/half_default_margin"

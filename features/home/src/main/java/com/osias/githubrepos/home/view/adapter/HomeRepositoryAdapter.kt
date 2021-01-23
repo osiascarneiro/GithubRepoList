@@ -23,6 +23,7 @@ class HomeRepositoryAdapter(
         holder.starCount.text = item?.repository?.starCount.toString()
         holder.forksCount.text = holder.itemView.context.resources.getString(R.string.forks_count, item?.repository?.forksCount)
         holder.avatar.load(item?.owner?.avatarUrl, imageLoader)
+        holder.login.text = item?.owner?.login
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -36,6 +37,7 @@ class HomeRepositoryAdapter(
         val starCount = view.starCount
         val forksCount = view.forksCount
         val avatar = view.avatarPhoto
+        val login = view.ownerLogin
     }
 
     companion object {

@@ -27,6 +27,7 @@ class FetchGithubRepoListRemoteMediator(
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
         }
 
+        if(page == null) return MediatorResult.Success(endOfPaginationReached = false)
         val apiResult = safeAPICall { api.getRepositories(page = page ?: 1, pageSize = FetchGithubRepoListRepositoryInterface.PAGE_SIZE) }
 
         return when(apiResult) {

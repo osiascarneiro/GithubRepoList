@@ -4,4 +4,5 @@
     <dimen name="half_default_margin">4dp</dimen>
     <dimen name="separator_height">1dp</dimen>
     <dimen name="avatar_width">75dp</dimen>
+    <dimen name="title_text_size">18sp</dimen>
 </resources>
