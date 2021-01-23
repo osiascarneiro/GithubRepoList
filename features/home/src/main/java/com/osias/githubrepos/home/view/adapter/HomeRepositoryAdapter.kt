@@ -6,11 +6,15 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.osias.githubrepos.core.extensions.load
+import com.osias.githubrepos.core.utils.ImageLoader
 import com.osias.githubrepos.home.model.RepositoryAndOwner
 import com.osias.home.R
 import com.osias.home.databinding.FragmentHomeRepositoryItemBinding
 
-class HomeRepositoryAdapter: PagingDataAdapter<RepositoryAndOwner, HomeRepositoryAdapter.HomeViewHolder>(COMPARATOR) {
+class HomeRepositoryAdapter(
+        private val imageLoader: ImageLoader
+): PagingDataAdapter<RepositoryAndOwner, HomeRepositoryAdapter.HomeViewHolder>(COMPARATOR) {
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item = getItem(position)
@@ -18,9 +22,7 @@ class HomeRepositoryAdapter: PagingDataAdapter<RepositoryAndOwner, HomeRepositor
         holder.description.text = item?.repository?.description
         holder.starCount.text = item?.repository?.starCount.toString()
         holder.forksCount.text = holder.itemView.context.resources.getString(R.string.forks_count, item?.repository?.forksCount)
-        Glide.with(holder.itemView)
-            .load(item?.owner?.avatarUrl).circleCrop()
-            .into(holder.avatar)
+        holder.avatar.load(item?.owner?.avatarUrl, imageLoader)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {

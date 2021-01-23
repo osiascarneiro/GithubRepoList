@@ -11,6 +11,7 @@ import com.osias.githubrepos.home.view.adapter.HomeRepositoryAdapter
 import com.osias.githubrepos.home.viewmodel.HomeViewModel
 import com.osias.home.databinding.FragmentHomeBinding
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -20,9 +21,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private val adapter: HomeRepositoryAdapter by lazy {
-        HomeRepositoryAdapter()
-    }
+    private val adapter: HomeRepositoryAdapter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
