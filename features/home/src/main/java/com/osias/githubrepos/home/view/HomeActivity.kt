@@ -10,18 +10,26 @@ import org.koin.core.context.unloadKoinModules
 
 class HomeActivity : AppCompatActivity() {
 
+    companion object {
+        //used to inject mock modules in test
+        const val TEST_EXTRA = "test_extra_key"
+    }
+
+    private val isTest: Boolean
+        get() = intent.getBooleanExtra(TEST_EXTRA, false)
+
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadKoinModules(module)
+        if(!isTest) loadKoinModules(module)
         binding = ActivityHomeBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        unloadKoinModules(module)
+        if(!isTest) unloadKoinModules(module)
     }
 
 

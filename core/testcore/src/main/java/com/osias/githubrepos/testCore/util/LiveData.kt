@@ -23,7 +23,7 @@ fun <T> LiveData<T>.getOrAwaitValue(
         override fun onChanged(o: T?) {
             data = o
             latch.countDown()
-            this@getOrAwaitValue.removeObserver(this)
+//            this@getOrAwaitValue.removeObserver(this)
         }
     }
     this.observeForever(observer)
@@ -39,7 +39,6 @@ fun <T> LiveData<T>.getOrAwaitValue(
     @Suppress("UNCHECKED_CAST")
     return data as T
 }
-
 /**
  * Observes a [LiveData] until the `block` is done executing.
  */

@@ -9,7 +9,7 @@ android {
     compileSdkVersion 30
     defaultConfig {
         minSdkVersion 21
-        testInstrumentationRunner "cards.core.test.util.KoinTestRunner"
+        testInstrumentationRunner "com.osias.githubrepos.testCore.util.KoinTestRunner"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -50,4 +50,18 @@ dependencies {
     implementation Dependencies.gsonConverter
     implementation Dependencies.koin
     implementation Dependencies.koinViewModel
+
+    testImplementation project(":core:testcore")
+    testImplementation TestDependencies.junit
+    testImplementation TestDependencies.mockk
+    testImplementation TestDependencies.coroutinesCoreSupport
+    testImplementation TestDependencies.coroutinesTest
+    testImplementation TestDependencies.archCore
+
+    androidTestImplementation project(":core:testcore")
+    androidTestImplementation TestDependencies.archCore
+    androidTestImplementation TestDependencies.androidxTesting
+    androidTestImplementation TestDependencies.androidxTestRunner
+    androidTestImplementation TestDependencies.androidxTestRule
+    androidTestImplementation TestDependencies.espresso
 }

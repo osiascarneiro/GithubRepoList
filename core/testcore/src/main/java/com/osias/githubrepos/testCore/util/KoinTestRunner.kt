@@ -1,4 +1,4 @@
-package cards.core.test.util
+package com.osias.githubrepos.testCore.util
 
 import android.app.Application
 import android.content.Context

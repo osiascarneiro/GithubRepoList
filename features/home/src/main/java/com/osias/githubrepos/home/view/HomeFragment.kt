@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeRepoList() {
-        viewModel.repos.observe(viewLifecycleOwner, Observer {
+        viewModel.repos.observe(viewLifecycleOwner, {
             lifecycleScope.launch {
                 adapter.submitData(it)
             }
