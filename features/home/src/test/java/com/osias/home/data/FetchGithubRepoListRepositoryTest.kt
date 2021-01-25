@@ -1,26 +1,26 @@
 package com.osias.home.data
 
-import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import androidx.paging.liveData
-import androidx.paging.map
+import androidx.room.withTransaction
 import cards.core.test.util.getOrAwaitValue
 import com.osias.githubrepos.home.data.FetchGithubRepoListRepository
+import com.osias.githubrepos.home.data.FetchGithubRepoListRepositoryInterface
 import com.osias.githubrepos.home.data.api.FetchGithubRepoList
 import com.osias.githubrepos.home.data.db.GithubDb
-import com.osias.githubrepos.home.utils.GlideImageLoader
-import com.osias.githubrepos.home.view.adapter.HomeRepositoryAdapter
+import com.osias.githubrepos.home.model.RepositoryAndOwner
 import com.osias.githubrepos.testCore.base.BaseTest
 import com.osias.githubrepos.testCore.rule.MainCoroutineRule
+import com.osias.githubrepos.testCore.util.collectData
+import com.osias.home.R
 import com.osias.home.mock.Mocks
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.concurrent.Executors
 
 class FetchGithubRepoListRepositoryTest: BaseTest() {
 
@@ -31,26 +31,41 @@ class FetchGithubRepoListRepositoryTest: BaseTest() {
     lateinit var sut: FetchGithubRepoListRepository
     private val service = mockk<FetchGithubRepoList>()
     private val db = mockk<GithubDb>()
+    private val callback: () -> Unit = {}
+    private val transactionLambda = slot<suspend () -> R>()
 
     @Before
     fun setup() {
         sut = FetchGithubRepoListRepository(db, service)
+        mockkStatic("androidx.room.RoomDatabaseKt")
     }
 
     @Test
     fun `Should return success`() {
         //Given
-        val itens = Mocks.createRepositores()
-        val successPager = Mocks.creteSuccessPager(itens)
-        coEvery { db.repositories().getRepositoriesAndOwners() } returns successPager
+        coEvery {
+            db.withTransaction(capture(transactionLambda))
+        } coAnswers { transactionLambda.captured.invoke() }
+
+        val pager: PagingSource<Int, RepositoryAndOwner> = mockk()
+        every { pager.registerInvalidatedCallback(any()) } returns callback()
+        every { pager.invalid } returns false
+        every { pager.keyReuseSupported } returns true
+        coEvery { pager.load(any()) } returns PagingSource.LoadResult.Page(data = Mocks.createRepositores(), prevKey = null, nextKey = null)
+
+        coEvery { db.repositories().deleteByPage(any()) } returns callback()
+        coEvery { db.owners().deleteList(any()) } returns callback()
+        coEvery { db.repositories().insertAll(any()) } returns callback()
+        coEvery { db.owners().insertAll(any()) } returns callback()
+        every { db.repositories().getRepositoriesAndOwners() } returns pager
+
+        coEvery { service.getRepositories(page = any(), pageSize = FetchGithubRepoListRepositoryInterface.PAGE_SIZE) } returns Mocks.createApiRepositoriesSuccess()
         //When
         val repos = sut.getRepositories()
         //Then
-        //How assert PagingData without adapter?
-        val data = PagingData.from(itens)
         val value = repos.liveData.getOrAwaitValue()
-        assert(data == value)
-
+        val testes = runBlocking { value.collectData() }
+        assert(testes.size == 11)
     }
 
 }

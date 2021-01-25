@@ -25,19 +25,16 @@ class FetchGithubRepoListRemoteMediator(
             LoadType.REFRESH -> null
             LoadType.APPEND -> state.lastItemOrNull()?.repository?.page?.plus(1) ?: 1
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
-        }
+        } ?: return MediatorResult.Success(endOfPaginationReached = false)
 
-        if(page == null) return MediatorResult.Success(endOfPaginationReached = false)
-        val apiResult = safeAPICall { api.getRepositories(page = page ?: 1, pageSize = FetchGithubRepoListRepositoryInterface.PAGE_SIZE) }
+        val apiResult = safeAPICall { api.getRepositories(page = page, pageSize = FetchGithubRepoListRepositoryInterface.PAGE_SIZE) }
 
         return when(apiResult) {
             is RequestState.Success -> {
-                processApiResult(apiResult.result, page ?: 1)
+                processApiResult(apiResult.result, page)
                 MediatorResult.Success(endOfPaginationReached = false)
             }
-            is RequestState.Failure -> {
-                MediatorResult.Error(Throwable("Não foi possível carregar os dados"))
-            }
+            is RequestState.Failure -> { MediatorResult.Error(Throwable("Não foi possível carregar os dados")) }
             else -> { MediatorResult.Success(endOfPaginationReached = false) }
         }
     }
@@ -53,13 +50,13 @@ class FetchGithubRepoListRemoteMediator(
         }
     }
 
-    private suspend fun buildRepositoryEntityList(listRepos: List<Repository>, pageParam: Int): List<RepositoryEntity> {
+    private fun buildRepositoryEntityList(listRepos: List<Repository>, pageParam: Int): List<RepositoryEntity> {
         return listRepos.map {
             it.toEntity().apply { page = pageParam }
         }
     }
 
-    private suspend fun buildOwnersEntityList(listRepos: List<Repository>): List<OwnerEntity> {
+    private fun buildOwnersEntityList(listRepos: List<Repository>): List<OwnerEntity> {
         return listRepos.map { it.owner.toEntity() }.distinctBy { it.login }
     }
 }

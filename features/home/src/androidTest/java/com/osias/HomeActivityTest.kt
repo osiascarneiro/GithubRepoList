@@ -36,7 +36,7 @@ class HomeActivityTest: BaseTest() {
     }
 
     @Test
-    fun testSuccessfullWith9Items() {
+    fun testSuccessfulWith9Items() {
         loadKoinModules(mockModule)
         ActivityScenario.launch<HomeActivity>(intent)
         home {

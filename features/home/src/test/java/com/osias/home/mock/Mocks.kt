@@ -1,23 +1,14 @@
 package com.osias.home.mock
 
-import androidx.paging.PagingSource
-import com.osias.githubrepos.home.model.OwnerEntity
-import com.osias.githubrepos.home.model.RepositoryAndOwner
-import com.osias.githubrepos.home.model.RepositoryEntity
+import com.osias.githubrepos.home.model.*
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 object Mocks {
 
-    fun creteSuccessPager(itens: List<RepositoryAndOwner>): PagingSource<Int, RepositoryAndOwner> {
-        return MockSuccessPagingSource(itens)
-    }
-
-    fun createErrorPager(): PagingSource<Int, RepositoryAndOwner> {
-        return MockErrorPagingSource()
-    }
-
-    fun createRepositores(): List<RepositoryAndOwner> {
+    fun createRepositores(): ArrayList<RepositoryAndOwner> {
         val itens = arrayListOf<RepositoryAndOwner>()
-        for(i in 0..8) {
+        for(i in 0..10) {
             itens.add(
                 RepositoryAndOwner(
                     repository = RepositoryEntity(
@@ -43,23 +34,36 @@ object Mocks {
         return itens
     }
 
-    private class MockSuccessPagingSource(val itens: List<RepositoryAndOwner>): PagingSource<Int, RepositoryAndOwner>() {
-        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RepositoryAndOwner> {
-            return LoadResult.Page(
-                data = itens,
-                prevKey = null,
-                nextKey = null
+    fun createApiRepositoriesSuccess(): Response<RepositoriesList> {
+        val itens = arrayListOf<Repository>()
+        for(i in 0..8) {
+            itens.add(
+                Repository(
+                    id = "$i",
+                    name = "$i",
+                    fullName = "$i, $i",
+                    private = false,
+                    owner = Owner(
+                        login = "owner_login",
+                        avatarUrl = "owner.com",
+                        type = "personal"
+                    ),
+                    description = "",
+                    url = "repository.com",
+                    starCount = 0,
+                    forksCount = 0
+                )
             )
         }
+        val list = RepositoriesList(
+            total = 9,
+            repos = itens
+        )
+        return Response.success(list)
     }
 
-    private class MockErrorPagingSource(): PagingSource<Int, RepositoryAndOwner>() {
-        override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RepositoryAndOwner> {
-            return LoadResult.Error<Int, RepositoryAndOwner>(
-                throwable = Throwable("There was an error")
-            )
-        }
-
+    fun createApiRepositoriesFailure(): Response<RepositoriesList> {
+        return Response.error(404, ResponseBody.create(null, "Não foi possível acessar o recurso"))
     }
 
 }
