@@ -1,6 +1,6 @@
 object Versions {
-    const val kotlin = "1.4.10"
-    const val androidGradleBuild = "4.1.1"
+    const val kotlin = "1.4.21"
+    const val androidGradleBuild = "4.1.2"
     const val androidxCore = "1.3.2"
     const val appcompat = "1.2.0"
     const val material = "1.2.1"

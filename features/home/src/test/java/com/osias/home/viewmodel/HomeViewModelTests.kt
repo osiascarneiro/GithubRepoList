@@ -47,9 +47,19 @@ class HomeViewModelTests: BaseTest() {
         //When
         val value = sut.repos.getOrAwaitValue()
         //Then
-        //How assert PagingData without adapter?
         val testes = runBlocking { value.collectData() }
         assert(testes.size == 11)
+    }
+
+    @Test
+    fun `Should return nothing on error`() {
+        //Given
+        coEvery { pager.load(any()) } returns PagingSource.LoadResult.Error(Throwable("There was an error"))
+        //When
+        val value = sut.repos.getOrAwaitValue()
+        //Then
+        val testes = runBlocking { value.collectData() }
+        assert(testes.isEmpty())
     }
 
 }

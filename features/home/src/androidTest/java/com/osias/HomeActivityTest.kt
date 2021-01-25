@@ -5,6 +5,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.osias.di.mockErrorModule
 import com.osias.di.mockModule
 import com.osias.githubrepos.home.view.HomeActivity
 import com.osias.githubrepos.testCore.base.BaseTest
@@ -33,6 +34,7 @@ class HomeActivityTest: BaseTest() {
     fun tearDown() {
         scenario?.close()
         unloadKoinModules(mockModule)
+        unloadKoinModules(mockErrorModule)
     }
 
     @Test
@@ -45,6 +47,15 @@ class HomeActivityTest: BaseTest() {
             checkLoginInSeconPosition()
             checkStarCountInFourthPosition()
             checkForkCountInFifthPosition()
+        }
+    }
+
+    @Test
+    fun testError() {
+        loadKoinModules(mockErrorModule)
+        ActivityScenario.launch<HomeActivity>(intent)
+        home {
+            checkNoItemsInList()
         }
     }
 
